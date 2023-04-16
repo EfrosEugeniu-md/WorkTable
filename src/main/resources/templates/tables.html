@@ -401,9 +401,9 @@
                                     <tbody >
                                         <tr th:each="entity: ${list}">
                                             <td ><span  th:text="${entity.id}"></span></td>
-                                            <td ><span th:text="${entity.verb}"></span></td>
-                                            <td ><span th:text="${entity.particle}"></span></td>
-                                            <td ><span th:text="${entity.version}"></span></td>
+                                            <td ><span th:text="${entity.verb.verb}"></span></td>
+                                            <td ><span th:text="${entity.particleVersion.particle.particle}"></span></td>
+                                            <td ><span th:text="${entity.particleVersion.version}"></span></td>
                                             <td ><span th:text="${entity.significance}"></span></td>
                                             <td><span th:text="${entity.examples}"></span></td>
                                         </tr>

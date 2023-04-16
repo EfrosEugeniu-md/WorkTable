@@ -13,21 +13,13 @@ import java.util.List;
 @Setter
 @NoArgsConstructor(access = AccessLevel.PUBLIC, force = true)
 @Entity
-public class ParticleVersion {
+public class Verb {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private String verb;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "particle_id")
-    private Particle particle;
-
-    private Integer version;
-    private String significance;
-    @Column(columnDefinition="TEXT")
-    private String definition;
-
-    @OneToMany(mappedBy = "particleVersion", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "verb", fetch = FetchType.LAZY)
     private List<VerbParticleVersion> verbParticleVersions = new ArrayList<>();
 }
 

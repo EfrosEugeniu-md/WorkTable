@@ -1,7 +1,13 @@
 package TaniaGrup.WorkTable.service;
 
+import TaniaGrup.WorkTable.beans.Particle;
+import TaniaGrup.WorkTable.beans.ParticleVersion;
+import TaniaGrup.WorkTable.beans.Verb;
 import TaniaGrup.WorkTable.beans.VerbParticleVersion;
+import TaniaGrup.WorkTable.repository.ParticleRepository;
+import TaniaGrup.WorkTable.repository.ParticleVersionRepository;
 import TaniaGrup.WorkTable.repository.VerbParticleVersionRepository;
+import TaniaGrup.WorkTable.repository.VerbRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +22,11 @@ import static TaniaGrup.WorkTable.service.Utils.getStringValue;
 @AllArgsConstructor
 public class VerbParticleVersionRepositoryInitService {
     private FileReadService fileReadService;
-    private VerbParticleVersionRepository verbRepository;
+    private VerbParticleVersionRepository verbParticleVersionRepository;
+    private VerbRepository verbRepository;
+    private ParticleRepository particleRepository;
+    private ParticleVersionRepository particleVersionRepository;
+
 
     public void init() throws IOException {
         Map<Integer, Map<Integer, List<String>>> mapMap = fileReadService.init("C:\\demo\\student.xls.xlsx");
@@ -30,21 +40,67 @@ public class VerbParticleVersionRepositoryInitService {
     private void extracted(Map<Integer, List<String>> integerListMap, Integer i) {
         List<String> strings = integerListMap.get(i);
         try {
-            verbRepository.save(getVerb(strings));
+            verbParticleVersionRepository.save(getVerb(strings));
         } catch (Exception e) {
-           strings.stream().forEach(System.out::println);
+            strings.stream().forEach(System.out::println);
         }
     }
 
     private VerbParticleVersion getVerb(List<String> strings) {
-        VerbParticleVersion verbParticleVersion = new VerbParticleVersion();
-        verbParticleVersion.setVerb(getStringValue(strings,0));
-        verbParticleVersion.setParticle(getStringValue(strings,1));
-        verbParticleVersion.setVersion(getIntValue(strings.get(2)));
-        verbParticleVersion.setSignificance(getStringValue(strings,3));
-        verbParticleVersion.setExamples(getStringValue(strings,4));
+        Verb verb = getVerb1(strings);
+
+        Particle particle = getParticle(strings);
+
+        ParticleVersion particleVersion = getParticleVersion(strings, particle);
+
+        VerbParticleVersion verbParticleVersion = getVerbParticleVersion(strings, verb, particleVersion);
+
+        particle.getParticleVersions().add(particleVersion);
+
+        verb.getVerbParticleVersions().add(verbParticleVersion);
+        particleVersion.getVerbParticleVersions().add(verbParticleVersion);
+
         return verbParticleVersion;
     }
 
+    private ParticleVersion getParticleVersion(List<String> strings, Particle particle) {
+        ParticleVersion particleVersion=new ParticleVersion();
+        particleVersion.setParticle(particle);
+        particleVersion.setVersion(getIntValue(strings.get(3)));
 
+        ParticleVersion finalParticleVersion = particleVersion;
+        particleVersion = particleVersionRepository
+                .findFirstByParticleAndVersion(particleVersion.getParticle(),particleVersion.getVersion())
+                .orElseGet(() -> particleVersionRepository.save(finalParticleVersion));
+
+        return particleVersion;
+    }
+
+    private VerbParticleVersion getVerbParticleVersion(List<String> strings, Verb verb, ParticleVersion particleVersion) {
+        VerbParticleVersion verbParticleVersion = new VerbParticleVersion();
+        verbParticleVersion.setVerb(verb);
+        verbParticleVersion.setParticleVersion(particleVersion);
+        verbParticleVersion.setAdditionalParticle(strings.get(2));
+        verbParticleVersion.setSignificance(getStringValue(strings, 4));
+        verbParticleVersion.setExamples(getStringValue(strings, 5));
+        return verbParticleVersion;
+    }
+
+    private Particle getParticle(List<String> strings) {
+        Particle particle = new Particle();
+        particle.setParticle(getStringValue(strings, 1));
+        Particle finalParticle = particle;
+        particle = particleRepository.findFirstByParticle(particle.getParticle())
+                .orElseGet(() -> particleRepository.save(finalParticle));
+        return particle;
+    }
+
+    private Verb getVerb1(List<String> strings) {
+        Verb verb = new Verb();
+        verb.setVerb(getStringValue(strings, 0));
+        Verb finalVerb=verb;
+        verb = verbRepository.findFirstByVerb(verb.getVerb())
+                .orElseGet(() -> verbRepository.save(finalVerb));
+        return verb;
+    }
 }

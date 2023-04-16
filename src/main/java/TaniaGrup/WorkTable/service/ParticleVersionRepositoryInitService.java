@@ -39,7 +39,7 @@ public class ParticleVersionRepositoryInitService {
     private ParticleVersion getVerb(List<String> strings) {
         ParticleVersion particleVersion = new ParticleVersion();
 
-        particleVersion.setParticle(getStringValue(strings,0));
+       // particleVersion.setParticle(getStringValue(strings,0));
         particleVersion.setVersion(getIntValue(strings.get(1)));
         particleVersion.setSignificance(getStringValue(strings,2));
         particleVersion.setDefinition(getStringValue(strings,3));

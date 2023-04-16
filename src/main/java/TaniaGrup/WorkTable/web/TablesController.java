@@ -1,9 +1,13 @@
 package TaniaGrup.WorkTable.web;
 
+import TaniaGrup.WorkTable.beans.Particle;
 import TaniaGrup.WorkTable.beans.ParticleVersion;
+import TaniaGrup.WorkTable.beans.Verb;
 import TaniaGrup.WorkTable.beans.VerbParticleVersion;
+import TaniaGrup.WorkTable.repository.ParticleRepository;
 import TaniaGrup.WorkTable.repository.ParticleVersionRepository;
 import TaniaGrup.WorkTable.repository.VerbParticleVersionRepository;
+import TaniaGrup.WorkTable.repository.VerbRepository;
 import TaniaGrup.WorkTable.service.ParticleVersionRepositoryInitService;
 import TaniaGrup.WorkTable.service.VerbParticleVersionRepositoryInitService;
 import lombok.AllArgsConstructor;
@@ -20,9 +24,11 @@ public class TablesController {
 
     private VerbParticleVersionRepositoryInitService verbRepositoryInitService;
     private ParticleVersionRepositoryInitService particleVersionRepositoryInitService;
+
     private VerbParticleVersionRepository verbParticleVersionRepository;
     private ParticleVersionRepository particleVersionRepository;
-
+    private ParticleRepository particleRepository;
+    private VerbRepository verbRepository;
 
 
     @GetMapping(value = {"/tables.html"})
@@ -30,8 +36,18 @@ public class TablesController {
         if (verbParticleVersionRepository.count() == 0) {
             verbRepositoryInitService.init();
         }
+        if (particleVersionRepository.count() == 0) {
+            particleVersionRepositoryInitService.init();
+        }
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("list", (List<VerbParticleVersion>) verbParticleVersionRepository.findAll());
+        Iterable<VerbParticleVersion> all = verbParticleVersionRepository.findAll();
+        modelAndView.addObject("list", (List<VerbParticleVersion>) all);
+
+        Iterable<VerbParticleVersion> all1 = all;
+        Iterable<ParticleVersion> particleVersions = particleVersionRepository.findAll();
+        Iterable<Particle> particles = particleRepository.findAll();
+        Iterable<Verb> verbs = verbRepository.findAll();
+
         modelAndView.setViewName("tables");
         return modelAndView;
     }
