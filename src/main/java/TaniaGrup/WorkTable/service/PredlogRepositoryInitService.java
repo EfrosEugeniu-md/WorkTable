@@ -1,6 +1,8 @@
 package TaniaGrup.WorkTable.service;
 
+import TaniaGrup.WorkTable.beans.Predlog;
 import TaniaGrup.WorkTable.beans.Verb;
+import TaniaGrup.WorkTable.repository.PredlogRepository;
 import TaniaGrup.WorkTable.repository.VerbRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,13 +17,13 @@ import static TaniaGrup.WorkTable.service.Utils.getStringValue;
 
 @Service
 @AllArgsConstructor
-public class VerbRepositoryInitService {
+public class PredlogRepositoryInitService {
     private FileReadService fileReadService;
-    private VerbRepository verbRepository;
+    private PredlogRepository predlogRepository;
 
     public void init() throws IOException {
         Map<Integer, Map<Integer, List<String>>> mapMap = fileReadService.init("C:\\demo\\student.xls.xlsx");
-        Map<Integer, List<String>> integerListMap = mapMap.get(0);
+        Map<Integer, List<String>> integerListMap = mapMap.get(2);
 
         for (Integer i : integerListMap.keySet()) {
             extracted(integerListMap, i);
@@ -31,20 +33,19 @@ public class VerbRepositoryInitService {
     private void extracted(Map<Integer, List<String>> integerListMap, Integer i) {
         List<String> strings = integerListMap.get(i);
         try {
-            Verb verb = getVerb(strings);
-            verbRepository.save(verb);
+            predlogRepository.save(getVerb(strings));
         } catch (Exception e) {
            strings.stream().forEach(System.out::println);
         }
     }
 
-    private Verb getVerb(List<String> strings) {
-        Verb verb = new Verb();
-        verb.setGlagol(getStringValue(strings,0));
-        verb.setPredlog(getStringValue(strings,1));
-        verb.setNomer(getIntValue(strings.get(2)));
-        verb.setPerevod(getStringValue(strings,3));
-        verb.setPrimer(getStringValue(strings,4));
+    private Predlog getVerb(List<String> strings) {
+        Predlog verb = new Predlog();
+
+        verb.setPredlog(getStringValue(strings,0));
+        verb.setNomer(getIntValue(strings.get(1)));
+        verb.setPerevod(getStringValue(strings,2));
+       // verb.setPrimer(getStringValue(strings,4));
         return verb;
     }
 
