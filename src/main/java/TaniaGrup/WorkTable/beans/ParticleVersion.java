@@ -1,21 +1,24 @@
 package TaniaGrup.WorkTable.beans;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
+
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PUBLIC, force = true)
 @Entity
-public class Verb {
+public class ParticleVersion {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String glagol;
-    private String predlog;
-    private Integer nomer;
-    private String perevod;
+    private String particle;
+    private Integer version;
+    private String significance;
     @Column(columnDefinition="TEXT")
-    private String primer;
+    private String definition;
 }
 

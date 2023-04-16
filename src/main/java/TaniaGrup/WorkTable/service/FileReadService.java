@@ -1,6 +1,6 @@
 package TaniaGrup.WorkTable.service;
 
-import TaniaGrup.WorkTable.repository.VerbRepository;
+import TaniaGrup.WorkTable.repository.VerbParticleVersionRepository;
 import lombok.AllArgsConstructor;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -20,7 +20,7 @@ import java.util.Map;
 @AllArgsConstructor
 public class FileReadService {
 
-    private VerbRepository verbRepository;
+    private VerbParticleVersionRepository verbRepository;
 
     public Map<Integer, Map<Integer, List<String>>> init(final String fileLocation) throws IOException {
         Workbook workbook = getSheets(fileLocation);

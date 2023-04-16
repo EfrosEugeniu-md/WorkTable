@@ -1,18 +1,21 @@
 package TaniaGrup.WorkTable.service;
 
+import lombok.experimental.UtilityClass;
+
 import java.util.List;
 import java.util.Optional;
 
+@UtilityClass
 public class Utils {
-    static String getStringValue(List<String> strings, int i) {
-        return Optional.ofNullable(strings.get(i)).orElse("");
+    static String getStringValue(List<String> strings, int index) {
+        return Optional.ofNullable(strings.get(index)).orElse("");
     }
 
-    static int getIntValue(String strings) {
+    static int getIntValue(String value) {
         try {
-            int i = (Double.valueOf(strings)).intValue();
-            return i;
+            return (Double.valueOf(value)).intValue();
         } catch (NumberFormatException e) {
+            System.out.println(value);
             return 999;
         }
     }
