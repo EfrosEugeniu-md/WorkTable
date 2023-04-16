@@ -20,6 +20,7 @@ public class Particle {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String particle;
+    private String type;
     @Column(columnDefinition="TEXT")
     private String definition;
 

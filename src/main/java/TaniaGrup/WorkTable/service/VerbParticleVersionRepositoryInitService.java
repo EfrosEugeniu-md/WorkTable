@@ -39,15 +39,12 @@ public class VerbParticleVersionRepositoryInitService {
 
     private void extracted(Map<Integer, List<String>> integerListMap, Integer i) {
         List<String> strings = integerListMap.get(i);
-        try {
-            verbParticleVersionRepository.save(getVerb(strings));
-        } catch (Exception e) {
-            strings.stream().forEach(System.out::println);
-        }
+
+        verbParticleVersionRepository.save(getVerbParticleVersion(strings));
     }
 
-    private VerbParticleVersion getVerb(List<String> strings) {
-        Verb verb = getVerb1(strings);
+    private VerbParticleVersion getVerbParticleVersion(List<String> strings) {
+        Verb verb = getVerb(strings);
 
         Particle particle = getParticle(strings);
 
@@ -64,13 +61,13 @@ public class VerbParticleVersionRepositoryInitService {
     }
 
     private ParticleVersion getParticleVersion(List<String> strings, Particle particle) {
-        ParticleVersion particleVersion=new ParticleVersion();
+        ParticleVersion particleVersion = new ParticleVersion();
         particleVersion.setParticle(particle);
         particleVersion.setVersion(getIntValue(strings.get(3)));
 
         ParticleVersion finalParticleVersion = particleVersion;
         particleVersion = particleVersionRepository
-                .findFirstByParticleAndVersion(particleVersion.getParticle(),particleVersion.getVersion())
+                .findFirstByParticleAndVersion(particleVersion.getParticle(), particleVersion.getVersion())
                 .orElseGet(() -> particleVersionRepository.save(finalParticleVersion));
 
         return particleVersion;
@@ -95,10 +92,10 @@ public class VerbParticleVersionRepositoryInitService {
         return particle;
     }
 
-    private Verb getVerb1(List<String> strings) {
+    private Verb getVerb(List<String> strings) {
         Verb verb = new Verb();
         verb.setVerb(getStringValue(strings, 0));
-        Verb finalVerb=verb;
+        Verb finalVerb = verb;
         verb = verbRepository.findFirstByVerb(verb.getVerb())
                 .orElseGet(() -> verbRepository.save(finalVerb));
         return verb;

@@ -35,8 +35,6 @@ public class TablesController {
     public ModelAndView page() throws IOException {
         if (verbParticleVersionRepository.count() == 0) {
             verbRepositoryInitService.init();
-        }
-        if (particleVersionRepository.count() == 0) {
             particleVersionRepositoryInitService.init();
         }
         ModelAndView modelAndView = new ModelAndView();
