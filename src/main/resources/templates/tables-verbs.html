@@ -246,30 +246,18 @@
                                         <tr>
                                             <th>id</th>
                                             <th>verb</th>
-                                            <th>particle</th>
-                                            <th>version</th>
-                                            <th>significance</th>
-                                            <th>examples</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
                                             <th>id</th>
                                             <th>verb</th>
-                                            <th>particle</th>
-                                            <th>version</th>
-                                            <th>significance</th>
-                                            <th>examples</th>
                                         </tr>
                                     </tfoot>
                                     <tbody >
                                         <tr th:each="entity: ${list}">
                                             <td ><span  th:text="${entity.id}"></span></td>
-                                            <td ><span th:text="${entity.verb.verb}"></span></td>
-                                            <td ><span th:text="${entity.particleVersion.particle.particle}"></span></td>
-                                            <td ><span th:text="${entity.particleVersion.version}"></span></td>
-                                            <td ><span th:text="${entity.significance}"></span></td>
-                                            <td><span th:text="${entity.examples}"></span></td>
+                                            <td ><span th:text="${entity.verb}"></span></td>
                                         </tr>
                                     </tbody>
                                 </table>

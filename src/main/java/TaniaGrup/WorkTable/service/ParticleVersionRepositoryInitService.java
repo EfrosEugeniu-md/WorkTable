@@ -45,11 +45,13 @@ public class ParticleVersionRepositoryInitService {
         particleVersionRepository.findFirstByParticleAndVersion(firstByParticle, intValue)
                 .map(v -> {
                     v.setDefinition(getStringValue(strings, 3));
+                    particleVersionRepository.save(v);
                     return true;
                 })
                 .orElseGet(() -> {
                     firstByParticle.setType(getStringValue(strings, 2));
                     firstByParticle.setDefinition(getStringValue(strings, 3));
+                    particleRepository.save(firstByParticle);
                     return false;
                 });
     }
