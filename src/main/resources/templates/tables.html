@@ -265,9 +265,21 @@
                                     <tbody >
                                         <tr th:each="entity: ${list}">
                                             <td ><span  th:text="${entity.id}"></span></td>
-                                            <td ><span th:text="${entity.verb.verb}"></span></td>
-                                            <td ><span th:text="${entity.particleVersion.particle.particle}"></span></td>
-                                            <td ><span th:text="${entity.particleVersion.version}"></span></td>
+                                            <td >
+                                                <a th:href="@{'/tables?verb='+${entity.verb.verb}}">
+                                                <span th:text="${entity.verb.verb}"></span>
+                                                </a>
+                                            </td>
+                                            <td >
+                                                <a th:href="@{'/tables?particle='+${entity.particleVersion.particle.particle}}">
+                                                <span th:text="${entity.particleVersion.particle.particle}"></span>
+                                                </a>
+                                            </td>
+                                            <td >
+                                                <a th:href="@{'/tablesParticleVersions?particle='+${entity.particleVersion.particle.particle}}">
+                                                <span th:text="${entity.particleVersion.version}"></span>
+                                                </a>
+                                            </td>
                                             <td ><span th:text="${entity.significance}"></span></td>
                                             <td><span th:text="${entity.examples}"></span></td>
                                         </tr>
