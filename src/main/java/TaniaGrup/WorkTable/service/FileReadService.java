@@ -2,6 +2,9 @@ package TaniaGrup.WorkTable.service;
 
 import TaniaGrup.WorkTable.repository.VerbParticleVersionRepository;
 import lombok.AllArgsConstructor;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -9,6 +12,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,7 +40,7 @@ public class FileReadService {
 
     private Workbook getSheets(final String fileLocation) throws IOException {
         FileInputStream file = new FileInputStream(fileLocation);
-        return new XSSFWorkbook(file);
+        return new HSSFWorkbook(file);
     }
 
     private Map<Integer, List<String>> getIntegerListMap(Workbook workbook, int j) {

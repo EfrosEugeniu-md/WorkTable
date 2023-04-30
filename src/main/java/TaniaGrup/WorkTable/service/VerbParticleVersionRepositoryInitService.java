@@ -9,6 +9,7 @@ import TaniaGrup.WorkTable.repository.ParticleVersionRepository;
 import TaniaGrup.WorkTable.repository.VerbParticleVersionRepository;
 import TaniaGrup.WorkTable.repository.VerbRepository;
 import lombok.AllArgsConstructor;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -28,7 +29,7 @@ public class VerbParticleVersionRepositoryInitService {
     private ParticleVersionRepository particleVersionRepository;
 
 
-    public void init() throws IOException {
+    public void init() throws IOException, InvalidFormatException {
         Map<Integer, Map<Integer, List<String>>> mapMap = fileReadService.init("C:\\demo\\student.xls.xlsx");
         Map<Integer, List<String>> integerListMap = mapMap.get(0);
 
