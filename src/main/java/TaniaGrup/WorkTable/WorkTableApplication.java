@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class WorkTableApplication {
 
 	public static void main(String[] args) {
+
 		SpringApplication.run(WorkTableApplication.class, args);
 	}
 
