@@ -29,10 +29,7 @@ public class HomeController {
     private VerbRepository verbRepository;
     @GetMapping(value = {"", "/", "/home", "/index.html", "/nhgf"})
     public ModelAndView viewHomePage() throws IOException {
-        if (verbParticleVersionRepository.count() == 0) {
-            verbRepositoryInitService.init();
-            particleVersionRepositoryInitService.init();
-        }
+
         ModelAndView modelAndView = new ModelAndView();
 
         modelAndView.addObject("verbParticleVersions", verbParticleVersionRepository.count());
